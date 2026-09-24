@@ -21,14 +21,20 @@ export default function Contador() {
   // Req. 5: o step sempre deve ser maior que zero.
   const [step, setStep] = useState(1);
 
+  // Usa o valor atual do campo para a ação não depender apenas do blur.
+  function obterStepAtual() {
+    const valor = Number(textoStep);
+    return Number.isFinite(valor) && valor > 0 ? valor : step;
+  }
+
   // Req. 2: soma o step ajustando ao máximo (nunca passa do máximo).
   function incrementar() {
-    setContador(Math.min(contador + step, maximo));
+    setContador(Math.min(contador + obterStepAtual(), maximo));
   }
 
   // Req. 3: subtrai o step ajustando ao mínimo (nunca fica abaixo dele).
   function decrementar() {
-    setContador(Math.max(contador - step, minimo));
+    setContador(Math.max(contador - obterStepAtual(), minimo));
   }
 
   // Req. 4: reset volta para 0, para o mínimo se ele for maior que 0,
