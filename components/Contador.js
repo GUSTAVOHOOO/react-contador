@@ -13,6 +13,11 @@ export default function Contador() {
   const [minimo, setMinimo] = useState(0);
   const [maximo, setMaximo] = useState(10);
 
+  // Texto temporário dos campos: permite digitar valores como "-5" antes do blur.
+  const [textoStep, setTextoStep] = useState('1');
+  const [textoMinimo, setTextoMinimo] = useState('0');
+  const [textoMaximo, setTextoMaximo] = useState('10');
+
   // Req. 5: o step sempre deve ser maior que zero.
   const [step, setStep] = useState(1);
 
@@ -32,49 +37,49 @@ export default function Contador() {
     setContador(Math.min(Math.max(0, minimo), maximo));
   }
 
-  // Handlers de digitação: guardam o número digitado.
-  // Campo vazio não muda o estado (deixa digitar "-5" com calma).
+  // Handlers de digitação: guardam o texto a cada tecla.
+  // O texto temporário permite digitar "-5" antes da normalização no blur.
   function mudarStep(evento) {
-    const texto = evento.target.value;
-    if (texto !== '') setStep(Number(texto));
+    setTextoStep(evento.target.value);
   }
 
   function mudarMinimo(evento) {
-    const texto = evento.target.value;
-    if (texto !== '') setMinimo(Number(texto));
+    setTextoMinimo(evento.target.value);
   }
 
   function mudarMaximo(evento) {
-    const texto = evento.target.value;
-    if (texto !== '') setMaximo(Number(texto));
+    setTextoMaximo(evento.target.value);
   }
 
-  // Req. 5: ao sair do campo, step inválido (<= 0 ou não numérico) volta para 1.
-  function validarStep(evento) {
-    const valor = Number(evento.currentTarget.value);
+  // Req. 5: ao sair do campo, texto inválido (<= 0 ou não numérico) volta para 1.
+  function validarStep() {
+    const valor = Number(textoStep);
     const novoStep = Number.isFinite(valor) && valor > 0 ? valor : 1;
     setStep(novoStep);
+    setTextoStep(String(novoStep));
   }
 
-  // Req. 6: ao sair do campo, mínimo nunca passa do máximo.
-  // Valores não numéricos usam 0 como fallback seguro.
+  // Req. 6: ao sair do campo, texto do mínimo nunca passa do máximo.
+  // Texto vazio ou não numérico usa 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMinimo(evento) {
-    const valor = Number(evento.currentTarget.value);
+  function validarMinimo() {
+    const valor = Number(textoMinimo);
     const minimoDigitado = Number.isFinite(valor) ? valor : 0;
     const novoMinimo = Math.min(minimoDigitado, maximo);
     setMinimo(novoMinimo);
+    setTextoMinimo(String(novoMinimo));
     setContador(Math.min(Math.max(contador, novoMinimo), maximo));
   }
 
-  // Req. 6: ao sair do campo, máximo nunca fica abaixo do mínimo.
-  // Valores não numéricos usam 0 como fallback seguro.
+  // Req. 6: ao sair do campo, texto do máximo nunca fica abaixo do mínimo.
+  // Texto vazio ou não numérico usa 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMaximo(evento) {
-    const valor = Number(evento.currentTarget.value);
+  function validarMaximo() {
+    const valor = Number(textoMaximo);
     const maximoDigitado = Number.isFinite(valor) ? valor : 0;
     const novoMaximo = Math.max(maximoDigitado, minimo);
     setMaximo(novoMaximo);
+    setTextoMaximo(String(novoMaximo));
     setContador(Math.min(Math.max(contador, minimo), novoMaximo));
   }
 
@@ -108,7 +113,7 @@ export default function Contador() {
           <input
             type="number"
             step="any"
-            value={step}
+            value={textoStep}
             onChange={mudarStep}
             onBlur={validarStep}
           />
@@ -119,7 +124,7 @@ export default function Contador() {
           <input
             type="number"
             step="any"
-            value={minimo}
+            value={textoMinimo}
             onChange={mudarMinimo}
             onBlur={validarMinimo}
           />
@@ -130,7 +135,7 @@ export default function Contador() {
           <input
             type="number"
             step="any"
-            value={maximo}
+            value={textoMaximo}
             onChange={mudarMaximo}
             onBlur={validarMaximo}
           />
