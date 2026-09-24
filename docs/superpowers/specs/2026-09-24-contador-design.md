@@ -57,8 +57,10 @@ Cada função nomeada corresponde a um requisito e carrega comentário próprio:
   Soma o step ajustando ao máximo, sem passar dele.
 - `decrementar()` — **Req. 3:** `Math.max(contador - step, minimo)`.
   Subtrai o step ajustando ao mínimo, sem ir abaixo dele.
-- `resetar()` — **Req. 4:** `Math.max(0, minimo)`.
-  Volta para 0, ou para o mínimo quando o mínimo for maior que 0.
+- `resetar()` — **Req. 4:** `Math.min(Math.max(0, minimo), maximo)`.
+  Volta para 0, ou para o mínimo quando o mínimo for maior que 0. O ajuste
+  ao máximo protege o caso raro de intervalo totalmente negativo
+  (ex.: mín −10, máx −5 → reset fica em −5, dentro do intervalo).
 - `validarStep()` — **Req. 5** (`onBlur` do input de step):
   se `step <= 0`, volta para `1`.
 - `validarMinimo()` — **Reqs. 6 e 7** (`onBlur` do input de mínimo):
@@ -68,7 +70,9 @@ Cada função nomeada corresponde a um requisito e carrega comentário próprio:
   `novoMaximo = Math.max(maximo, minimo)`; aplica `novoMaximo` e reajusta o
   contador ao intervalo `[minimo, novoMaximo]`.
 - `mudarStep`, `mudarMinimo`, `mudarMaximo` — handlers de digitação
-  (`onChange`): apenas convertem o valor com `Number()`. A validação fica no blur.
+  (`onChange`): convertem o valor com `Number()`. Se o campo estiver vazio
+  (ex.: no meio da digitação de "−5"), o estado não muda — evita sobrescrever
+  o valor no meio da digitação. A validação fica no blur.
 
 **Por que validar no `onBlur`:** o blur dispara quando o usuário sai do campo.
 Validar ali evita sobrescrever o valor no meio da digitação (ex.: ao digitar
