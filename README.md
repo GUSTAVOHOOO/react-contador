@@ -9,6 +9,8 @@ npm install
 npm run dev
 ```
 
+Abra http://localhost:3000 no navegador.
+
 ## Requisitos e implementação
 
 | Requisito | Implementação em `components/Contador.js` |
@@ -25,13 +27,13 @@ A validação dos campos de step, mínimo e máximo roda no evento `onBlur`, qua
 
 ## Checklist manual
 
-1. initial 0
-2. step 1/max 10 increment and decrement
-3. count 8 step 5 plus => 10
-4. count 2 step 5 minus => 0
-5. reset => 0
-6. min 5 reset => 5
-7. step 0 or -3 blur => 1
-8. min 20 with max 10 => min 10 and count adjusted
-9. max -5 with min 0 => max 0 and count adjusted
-10. count 8 max 3 => count 3
+1. Abrir a página: o contador mostra 0.
+2. Step 1 e máximo 10: `+` mostra 1, 2 e 3; `-` diminui o contador.
+3. Contador 8 e step 5: `+` mostra 10 sem ultrapassar o máximo.
+4. Contador 2 e step 5: `-` mostra 0 sem ficar abaixo do mínimo.
+5. Resetar: o contador mostra 0.
+6. Mínimo 5 e resetar: o contador mostra 5.
+7. Step 0 ou -3 e saída do campo: o valor retorna para 1.
+8. Mínimo 20 com máximo 10: o mínimo é corrigido para 10 e o contador é ajustado.
+9. Máximo -5 com mínimo 0: o máximo é corrigido para 0 e o contador é ajustado.
+10. Contador 8 e máximo 3: o contador se torna 3 automaticamente.
