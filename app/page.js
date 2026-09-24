@@ -1,4 +1,6 @@
-// Página provisória — substituída pelo Contador na tarefa seguinte.
+import Contador from '@/components/Contador';
+
+// Página inicial: apenas mostra o contador do exercício.
 export default function Home() {
-  return <main>Exercício em andamento</main>;
+  return <Contador />;
 }
