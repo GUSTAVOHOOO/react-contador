@@ -49,25 +49,31 @@ export default function Contador() {
     if (texto !== '') setMaximo(Number(texto));
   }
 
-  // Req. 5: ao sair do campo, step inválido (<= 0) volta para 1.
-  function validarStep() {
-    if (step <= 0) {
-      setStep(1);
-    }
+  // Req. 5: ao sair do campo, step inválido (<= 0 ou não numérico) volta para 1.
+  function validarStep(evento) {
+    const valor = Number(evento.currentTarget.value);
+    const novoStep = Number.isFinite(valor) && valor > 0 ? valor : 1;
+    setStep(novoStep);
   }
 
-  // Req. 6: mínimo nunca passa do máximo.
+  // Req. 6: ao sair do campo, mínimo nunca passa do máximo.
+  // Valores não numéricos usam 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMinimo() {
-    const novoMinimo = Math.min(minimo, maximo);
+  function validarMinimo(evento) {
+    const valor = Number(evento.currentTarget.value);
+    const minimoDigitado = Number.isFinite(valor) ? valor : 0;
+    const novoMinimo = Math.min(minimoDigitado, maximo);
     setMinimo(novoMinimo);
     setContador(Math.min(Math.max(contador, novoMinimo), maximo));
   }
 
-  // Req. 6: máximo nunca fica abaixo do mínimo.
+  // Req. 6: ao sair do campo, máximo nunca fica abaixo do mínimo.
+  // Valores não numéricos usam 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMaximo() {
-    const novoMaximo = Math.max(maximo, minimo);
+  function validarMaximo(evento) {
+    const valor = Number(evento.currentTarget.value);
+    const maximoDigitado = Number.isFinite(valor) ? valor : 0;
+    const novoMaximo = Math.max(maximoDigitado, minimo);
     setMaximo(novoMaximo);
     setContador(Math.min(Math.max(contador, minimo), novoMaximo));
   }
