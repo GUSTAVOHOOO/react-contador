@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Contador com limites e step
 
-## Getting Started
+Este projeto implementa um contador com incremento, decremento, reset e limites configuráveis. Os inputs de mínimo e máximo tornam o contador dinâmico porque o intervalo pode ser ajustado pelo usuário durante o uso, sem depender de valores fixos no código.
 
-First, run the development server:
+## Como executar
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Requisitos e implementação
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+| Requisito | Implementação em `components/Contador.js` |
+| --- | --- |
+| 1 | `useState(0)` inicia o contador em zero. |
+| 2 | `incrementar` soma o step sem ultrapassar o máximo. |
+| 3 | `decrementar` subtrai o step sem ficar abaixo do mínimo. |
+| 4 | `resetar` retorna o contador para zero ou para o limite aplicável. |
+| 5 | `validarStep` garante que o step seja maior que zero. |
+| 6 | `validarMinimo` e `validarMaximo` mantêm os limites consistentes. |
+| 7 | O clamp automático reajusta o contador para dentro do novo intervalo. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+A validação dos campos de step, mínimo e máximo roda no evento `onBlur`, quando o usuário sai do campo.
 
-## Learn More
+## Checklist manual
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. initial 0
+2. step 1/max 10 increment and decrement
+3. count 8 step 5 plus => 10
+4. count 2 step 5 minus => 0
+5. reset => 0
+6. min 5 reset => 5
+7. step 0 or -3 blur => 1
+8. min 20 with max 10 => min 10 and count adjusted
+9. max -5 with min 0 => max 0 and count adjusted
+10. count 8 max 3 => count 3
