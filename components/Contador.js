@@ -52,8 +52,8 @@ export default function Contador() {
   }
 
   // Req. 5: ao sair do campo, texto inválido (<= 0 ou não numérico) volta para 1.
-  function validarStep() {
-    const valor = Number(textoStep);
+  function validarStep(evento) {
+    const valor = Number(evento.currentTarget.value);
     const novoStep = Number.isFinite(valor) && valor > 0 ? valor : 1;
     setStep(novoStep);
     setTextoStep(String(novoStep));
@@ -62,8 +62,8 @@ export default function Contador() {
   // Req. 6: ao sair do campo, texto do mínimo nunca passa do máximo.
   // Texto vazio ou não numérico usa 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMinimo() {
-    const valor = Number(textoMinimo);
+  function validarMinimo(evento) {
+    const valor = Number(evento.currentTarget.value);
     const minimoDigitado = Number.isFinite(valor) ? valor : 0;
     const novoMinimo = Math.min(minimoDigitado, maximo);
     setMinimo(novoMinimo);
@@ -74,8 +74,8 @@ export default function Contador() {
   // Req. 6: ao sair do campo, texto do máximo nunca fica abaixo do mínimo.
   // Texto vazio ou não numérico usa 0 como fallback seguro.
   // Req. 7: contador é reajustado para dentro do novo intervalo.
-  function validarMaximo() {
-    const valor = Number(textoMaximo);
+  function validarMaximo(evento) {
+    const valor = Number(evento.currentTarget.value);
     const maximoDigitado = Number.isFinite(valor) ? valor : 0;
     const novoMaximo = Math.max(maximoDigitado, minimo);
     setMaximo(novoMaximo);
